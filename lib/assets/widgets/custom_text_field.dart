@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomTextField extends StatefulWidget {
   final String? label, hint;
@@ -58,15 +59,22 @@ class _CustomTextFieldState extends State<CustomTextField> {
             shadowLightColor: widget.color,
             boxShape: const NeumorphicBoxShape.stadium(),
           ),
-          padding: EdgeInsets.symmetric(
-              vertical: widget.password ? 1 : 16, horizontal: 16),
           child: TextField(
             textAlignVertical: TextAlignVertical.center,
             onChanged: widget.onChanged,
             obscureText: hidePassword,
             controller: controller,
             cursorColor: widget.color,
+            style: GoogleFonts.raleway(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
             decoration: InputDecoration(
+                contentPadding: EdgeInsets.only(
+                    top: widget.password ? 0 : 15,
+                    bottom: widget.password ? 0 : 15,
+                    left: 16,
+                    right: 16),
                 focusColor: widget.color,
                 hoverColor: widget.color,
                 isCollapsed: true,

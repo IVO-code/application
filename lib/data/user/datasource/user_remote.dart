@@ -20,9 +20,10 @@ class UserRemote implements UserRepository {
   }
 
   @override
-  Future<User> findUser({required int id}) {
-    // TODO: implement findUser
-    throw UnimplementedError();
+  Future<User> findUser({required int id}) async {
+    final response = await http.get(Constants.getUser(id));
+    final dynamic responseMap = jsonDecode(response.body);
+    return User.fromMap(responseMap);
   }
 
   @override

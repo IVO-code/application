@@ -1,167 +1,107 @@
 import 'package:application/assets/constants.dart';
 import 'package:application/routes/authentication/controller/authentication_controller.dart';
+import 'package:application/routes/authentication/controller/login_controller.dart';
+import 'package:application/routes/home/controllers/home_controller.dart';
+import 'package:application/routes/home/controllers/pages_controller.dart';
 import 'package:application/routes/home/view/pages/cards/cards_page.dart';
 import 'package:application/routes/home/view/pages/explore/explore_page.dart';
+import 'package:application/routes/home/view/pages/patients/patients_page.dart';
+import 'package:application/routes/home/view/pages/script/script_page.dart';
 import 'package:application/routes/home/view/widgets/bottom_navbar.dart';
 import 'package:application/routes/home/view/widgets/top_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Home extends StatefulWidget {
-  var authenticationController = Get.put(AuthenticationController());
-
-  Home({Key? key}) : super(key: key);
-
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  final Index index =
-      Index(index: Get.arguments != null ? Get.arguments as int : 0);
+class HomeView extends GetView<HomeController> {
+  HomeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    widget.authenticationController.hasLogin();
     Size size = MediaQuery.of(context).size;
+    Get.put(PagesController());
 
-    index.notifyParent = () {
-      setState(() {});
-    };
-
-    return Scaffold(
+    return Obx(() => Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: index.colors[index.index],
+        backgroundColor: controller.getColorx(controller.index.value),
         body: SafeArea(
-            child: GestureDetector(
-          onHorizontalDragEnd: (DragEndDetails details) {
-            if (size.width < 850) {
-              if (details.primaryVelocity! > 0 && index.index != 0) {
-                index.index--;
-                index.notifyParent!();
-              }
-              if (details.primaryVelocity! < 0 && index.index != 3) {
-                index.index++;
-                index.notifyParent!();
-              }
-            }
-          },
           child: Stack(
             alignment: Alignment.topCenter,
             children: [
-              bodyPage(context),
-              widget.authenticationController.obx(
-                  (state) => TopNavbar(
-                        index: index,
-                        login: false,
-                      ),
-                  onEmpty: TopNavbar(
-                    index: index,
-                    login: false,
+              Container(
+                width: size.width,
+                alignment: Alignment.topCenter,
+                color: Constants.background,
+                margin: EdgeInsets.only(top: 60),
+                child: Theme(
+                  data: ThemeData(
+                    accentColor: controller.getColorx(controller.index.value),
                   ),
-                  onError: (error) => TopNavbar(
-                        index: index,
-                        login: true,
-                      ),
-                  onLoading: TopNavbar(
-                    index: index,
-                    login: true,
-                  )),
+                  child: PageView(
+                    physics: NeverScrollableScrollPhysics(),
+                    allowImplicitScrolling: false,
+                    controller: controller.pageController,
+                    children: <Widget>[
+                      Obx(() => ExplorePage(
+                          color: controller.getColorx(controller.index.value))),
+                      Obx(() => CardsPage(
+                          color: controller.getColorx(controller.index.value))),
+                      Obx(() => ScriptPage(
+                          color: controller.getColorx(controller.index.value))),
+                      Obx(() => PatientsPage(
+                          color: controller.getColorx(controller.index.value))),
+                    ],
+                  ),
+                ),
+              ),
+              TopNavbar(),
               size.width <= 850
                   ? Align(
                       alignment: Alignment.bottomCenter,
-                      child: widget.authenticationController.obx(
-                          (state) => menuList(context, 4),
-                          onEmpty: menuList(context, 4),
-                          onError: (error) => menuList(context, 3),
-                          onLoading: menuList(context, 3)))
+                      child: controller.obx((state) => menuList(),
+                          onEmpty: menuList(),
+                          onError: (error) => Container(),
+                          onLoading: Container()),
+                    )
                   : Container()
             ],
           ),
         )));
   }
 
-  Widget menuList(BuildContext context, max) {
-    List<BottomNavbarItem> items = [
-      BottomNavbarItem(
-        icon: Icon(Icons.language),
-        title: Text('Explorar'),
-        activeColor: index.colors[0],
-        inactiveColor: Constants.inactive,
-        textAlign: TextAlign.center,
-      ),
-      BottomNavbarItem(
-        icon: Icon(Icons.table_view),
-        title: Text('Cards'),
-        activeColor: index.colors[1],
-        inactiveColor: Constants.inactive,
-        textAlign: TextAlign.center,
-      ),
-      BottomNavbarItem(
-        icon: Icon(Icons.content_paste),
-        title: Text('Roteiros'),
-        activeColor: index.colors[2],
-        inactiveColor: Constants.inactive,
-        textAlign: TextAlign.center,
-      ),
-      BottomNavbarItem(
-        icon: Icon(Icons.supervised_user_circle),
-        title: Text('Pacientes'),
-        activeColor: index.colors[3],
-        inactiveColor: Constants.inactive,
-        textAlign: TextAlign.center,
-      ),
-    ];
-
-    return BottomNavbar(
-      items: items.sublist(0, max),
-      selectedIndex: index.index,
-      onItemSelected: (i) => setState(() {
-        index.index = i;
-        index.notifyParent!();
-      }),
-    );
+  Widget menuList() {
+    return Obx(() => BottomNavbar(
+          items: [
+            BottomNavbarItem(
+              icon: Icon(Icons.language),
+              title: Text('Explorar'),
+              activeColor: controller.colors[0],
+              inactiveColor: Constants.inactive,
+              textAlign: TextAlign.center,
+            ),
+            BottomNavbarItem(
+              icon: Icon(Icons.table_view),
+              title: Text('Cards'),
+              activeColor: controller.colors[1],
+              inactiveColor: Constants.inactive,
+              textAlign: TextAlign.center,
+            ),
+            BottomNavbarItem(
+              icon: Icon(Icons.content_paste),
+              title: Text('Roteiros'),
+              activeColor: controller.colors[2],
+              inactiveColor: Constants.inactive,
+              textAlign: TextAlign.center,
+            ),
+            BottomNavbarItem(
+              icon: Icon(Icons.supervised_user_circle),
+              title: Text('Pacientes'),
+              activeColor: controller.colors[3],
+              inactiveColor: Constants.inactive,
+              textAlign: TextAlign.center,
+            ),
+          ],
+          selectedIndex: controller.index.value,
+          onItemSelected: (i) => controller.setIndex(i),
+        ));
   }
-
-  Widget bodyPage(BuildContext context) {
-    List<Widget> pages = [
-      ExplorePage(),
-      CardsPage(),
-      ExplorePage(),
-      ExplorePage(),
-    ];
-
-    Size size = MediaQuery.of(context).size;
-    return Container(
-      width: size.width,
-      alignment: Alignment.topCenter,
-      color: Constants.background,
-      child: Container(
-        alignment: Alignment.center,
-        margin: EdgeInsets.only(
-            left: size.width < 1024 ? 20 : 200,
-            right: size.width < 1024 ? 20 : 200,
-            top: 110),
-        child: IndexedStack(
-          alignment: Alignment.topCenter,
-          index: index.index,
-          children: pages,
-        ),
-      ),
-    );
-  }
-}
-
-class Index {
-  int index = 0;
-  List<Color> colors = [
-    Constants.green,
-    Constants.purple,
-    Constants.pink,
-    Constants.turquoise,
-  ];
-
-  Index({this.index = 0});
-
-  Function()? notifyParent;
 }

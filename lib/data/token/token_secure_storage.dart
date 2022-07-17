@@ -13,13 +13,12 @@ class TokenSecureStorage {
   static Future<bool> hasToken() async =>
       (await _storage.read(key: _keyToken)) != null;
 
-  static Future setToken(Token token) async =>
-      await _storage.write(key: _keyToken, value: token.token);
+  static Future setToken(Token token) async {
+    await _storage.write(key: _keyToken, value: token.token);
+    await _storage.write(key: _keyId, value: token.id.toString());
+  }
 
   static Future invalidate() async => await _storage.deleteAll();
 
   static Future<String?> getId() async => await _storage.read(key: _keyId);
-
-  static Future setId(String id) async =>
-      await _storage.write(key: _keyId, value: id);
 }

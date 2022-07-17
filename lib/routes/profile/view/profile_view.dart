@@ -2,152 +2,240 @@ import 'package:application/assets/widgets/custom_text_button.dart';
 import 'package:application/assets/constants.dart';
 import 'package:application/assets/widgets/custom_text_field.dart';
 import 'package:application/data/token/token_secure_storage.dart';
+import 'package:application/data/user/user_model.dart';
 import 'package:application/routes/profile/controller/profile_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class ProfileView extends StatefulWidget {
-  final controller = Get.put(ProfileController());
-
+class ProfileView extends GetView<ProfileController> {
   ProfileView({Key? key}) : super(key: key);
-
-  @override
-  State<ProfileView> createState() => _ProfileViewState();
-}
-
-class _ProfileViewState extends State<ProfileView> {
-  Color c = Constants.green;
   var size, arguments;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    arguments = Get.arguments;
-    String color = (arguments != null && !(arguments is int))
-        ? arguments[0] as String
-        : "";
-    c = color != "" ? Color(int.parse(color, radix: 16)) : Constants.green;
-    return Container(
-      alignment: Alignment.center,
-      child: Scaffold(
-        backgroundColor: c,
+
+    loadColor();
+
+    return controller.obx(
+      (state) => Scaffold(
+        backgroundColor: Constants.background,
         body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.only(top: 24, bottom: 24, left: 48, right: 48),
-            child: size.width > 850
-                ? Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+          child: Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              Container(
+                color: controller.color,
+                width: double.infinity,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 230,
+                      ),
+                      Text(state.username,
+                          style: GoogleFonts.raleway(
+                              color: Constants.background,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold)),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        state.email,
+                        style: GoogleFonts.raleway(
+                          color: Constants.background,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ]),
+              ),
+              Container(
+                decoration:
+                    BoxDecoration(color: Constants.background, boxShadow: [
+                  BoxShadow(
+                      blurRadius: 3,
+                      offset: Offset(0, 4),
+                      color: Constants.black.withAlpha(70))
+                ]),
+                height: 170,
+                alignment: Alignment.topCenter,
+                child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("IVO"),
-                      Container(
-                        width: 400,
-                        child: form(context),
+                      IconButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        icon: Icon(Icons.arrow_back),
+                        color: controller.color,
                       ),
-                    ],
-                  )
-                : Center(
-                    child: form(context),
-                  ),
+                      settingsMenu(
+                        menuList: [
+                          PopupMenuItem(
+                              height: 24,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Icon(
+                                    Icons.person,
+                                    size: 14,
+                                    color: controller.color,
+                                  ),
+                                  Text("Meus dados",
+                                      style: GoogleFonts.raleway(
+                                          fontSize: 12,
+                                          color: controller.color,
+                                          fontWeight: FontWeight.bold)),
+                                ],
+                              )),
+                          PopupMenuItem(
+                              height: 24,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Icon(
+                                    Icons.picture_as_pdf,
+                                    size: 14,
+                                    color: controller.color,
+                                  ),
+                                  Text("Relatório",
+                                      style: GoogleFonts.raleway(
+                                        fontSize: 12,
+                                        color: controller.color,
+                                      )),
+                                ],
+                              )),
+                          PopupMenuDivider(),
+                          PopupMenuItem(
+                              height: 24,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Icon(
+                                    size: 14,
+                                    Icons.logout,
+                                    color: controller.color,
+                                  ),
+                                  Text("Sair",
+                                      style: GoogleFonts.raleway(
+                                        fontSize: 12,
+                                        color: controller.color,
+                                      )),
+                                ],
+                              ),
+                              onTap: () {
+                                controller.logout();
+                              }),
+                        ],
+                        icon: Icon(Icons.settings),
+                        color: controller.color,
+                      ),
+                    ]),
+              ),
+              Positioned(
+                  top: 90,
+                  child: Material(
+                    borderRadius: BorderRadius.circular(100),
+                    elevation: 6,
+                    child: CircleAvatar(
+                      radius: 64,
+                      foregroundImage:
+                          NetworkImage("https://i.imgur.com/rGlllm8.png"),
+                    ),
+                  ))
+            ],
           ),
         ),
+      ),
+      onLoading: Scaffold(
+          backgroundColor: controller.color,
+          body: Center(
+            child: CircularProgressIndicator(
+              color: Constants.background,
+            ),
+          )),
+      onError: (error) => Scaffold(
+          backgroundColor: controller.color,
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "OPS!",
+                  style: GoogleFonts.raleway(
+                      color: Constants.background,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 70),
+                ),
+                SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.warning,
+                      color: Constants.background,
+                      size: 25,
+                    ),
+                    Text(
+                      "    Houve um problema!",
+                      style: GoogleFonts.raleway(
+                          color: Constants.background,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 200,
+                ),
+                Obx(() => Text(
+                      "Redirecionando em ${controller.redirect.value}",
+                      style: GoogleFonts.raleway(
+                          color: Constants.background, fontSize: 22),
+                    )),
+              ],
+            ),
+          )),
+    );
+  }
+
+  Widget settingsMenu(
+      {required List<PopupMenuEntry> menuList,
+      required Icon icon,
+      required Color color}) {
+    return PopupMenuButton(
+      offset: Offset(0, 40),
+      color: Constants.background.withAlpha(240),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+        Radius.circular(20.0),
+      )),
+      itemBuilder: ((context) => menuList),
+      //color: color,
+      icon: Icon(
+        Icons.settings,
+        color: color,
       ),
     );
   }
 
-  Widget form(context) {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          tabs(context),
-          Spacer(),
-          Spacer(flex: 1),
-          IconButton(
-              onPressed: () {
-                FocusManager.instance.primaryFocus?.unfocus();
-                Get.toNamed("/",
-                    arguments: (arguments != null) ? arguments[1] : 0);
-              },
-              iconSize: size.width < 850 ? 60 : 80,
-              icon: const Icon(
-                Icons.keyboard_arrow_down,
-                color: Constants.background,
-              ))
-        ]);
-  }
+  void loadColor() {
+    arguments = Get.arguments;
+    String arg = (arguments != null && !(arguments is int))
+        ? arguments[0] as String
+        : "";
 
-  Widget tabs(context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        CustomTextButton(
-          press: () {
-            TokenSecureStorage.invalidate();
-            Get.toNamed("/", arguments: (arguments != null) ? arguments[1] : 0);
-          },
-          detailed: true,
-          selected: true,
-          filled: false,
-          title: "Sair",
-          icon: Icons.login,
-        ),
-      ],
-    );
-  }
-
-  Widget login(context) {
-    return Column(
-      children: [
-        CustomTextField(
-          text_controller: widget.controller
-              .usernameEditingController, //controller.usernameEditingController,
-          hint: "Usuário",
-          background: Constants.background,
-          color: c,
-        ),
-        CustomTextField(
-          text_controller: widget.controller
-              .passwordEditingController, //controller.passwordEditingController,
-          hint: "Senha",
-          background: Constants.background,
-          color: c,
-          password: true,
-        ),
-        NeumorphicButton(
-          onPressed: () {
-            widget.controller.login();
-          },
-          margin: EdgeInsets.only(top: 16),
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-          style: NeumorphicStyle(
-              boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(30)),
-              color: c,
-              border: NeumorphicBorder(color: Constants.background, width: 3),
-              shadowLightColor: c),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
-            Text(
-              "Entrar",
-              textScaleFactor: 1.2,
-              style: TextStyle(
-                  fontWeight: FontWeight.w500, color: Color(0xFFF6F6F7)),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 10),
-              child: Icon(
-                Icons.login,
-                size: 20,
-                color: Color(0xFFF6F6F7),
-              ),
-            )
-          ]),
-        ),
-      ],
-    );
+    controller.setColor(arg);
   }
 
   //Widget signup(context) {}

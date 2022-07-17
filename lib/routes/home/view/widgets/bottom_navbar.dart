@@ -15,7 +15,7 @@ class BottomNavbar extends StatelessWidget {
     required this.items,
     required this.onItemSelected,
     this.curve = Curves.linear,
-  })  : assert(items.length >= 2 && items.length <= 5),
+  })  : assert(items.length >= 1 && items.length <= 5),
         super(key: key);
 
   final int selectedIndex;
