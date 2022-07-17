@@ -13,10 +13,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ExplorePage extends GetView {
+class ScriptPage extends GetView {
   late Color color;
 
-  ExplorePage({Key? key, required this.color}) : super(key: key);
+  ScriptPage({
+    Key? key,
+    required this.color,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +28,7 @@ class ExplorePage extends GetView {
       body: Container(
           child: Stack(
         children: [
-          Background(
-              color: color, image: "lib/assets/image/bg_1.png", white: true),
+          Background(color: color, image: "lib/assets/image/bg_3.png"),
           ListView(
             children: [
               Padding(
@@ -35,26 +37,36 @@ class ExplorePage extends GetView {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Explorar",
+                        "Roteiros",
                         style: GoogleFonts.raleway(
-                            color: Constants.orange,
+                            color: Constants.background,
                             fontSize: 50.w,
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        "Nunca foi tão fácil se comunicar",
+                        "Fluxo de atendimento recomendado por especialistas",
                         style: GoogleFonts.raleway(
-                            color: Constants.orange,
+                            color: Constants.background,
                             fontSize: 16.w,
                             fontWeight: FontWeight.bold),
                       ),
                     ]),
               ),
-              Section(glass: false, child: Text("Teste"))
+              Section(child: Text("Teste"))
             ],
           ),
         ],
       )),
     );
   }
+
+  void onSeeAllTapped() {}
+
+  void onSleepMeditationTapped() {
+    //Get.to(() => DetailPage(), transition: Transition.rightToLeft);
+  }
+
+  void onDepressionHealingTapped() {}
+
+  void onSearchIconTapped() {}
 }
