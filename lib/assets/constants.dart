@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 
 class Constants {
-  String appName = "IVO";
-
+  //ROUTES -----------
   static const String url = "https://ivo-server-test.herokuapp.com/api/";
-  //static const String url = "http://127.0.0.1:8000/api/";
+
   static final Uri user = Uri.parse("${url}preceptores");
+  static final Uri element = Uri.parse("${url}elementos");
+  static final Uri card = Uri.parse("${url}cards");
+
   static Uri getUser(int id) => Uri.parse("${url}preceptores/${id}");
+  static Uri getElement(int id) => Uri.parse("${url}elementos/${id}");
+  static Uri getCard(int id) => Uri.parse("${url}cards/${id}");
+
   static final Uri setUser = Uri.parse("${url}preceptores/");
+  static final Uri setElement = Uri.parse("${url}elementos/");
+  static final Uri setCard = Uri.parse("${url}cards/");
+
   static final Uri login = Uri.parse("${url}login/");
 
+  //COLORS -----------
   static const Color background = const Color(0xFFF6F6F7);
   static const Color black = const Color(0xFF313039);
-  static const Color pink = Color.fromARGB(255, 228, 112, 156);
+  static const Color pink = const Color(0xFFE4709F);
   static const Color orange = const Color(0xFFF29057);
   static const Color green = const Color(0xFF77A158);
   static const Color turquoise = const Color(0xFF33A6A6);

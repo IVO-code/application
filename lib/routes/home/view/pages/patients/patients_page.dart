@@ -24,11 +24,10 @@ class PatientsPage extends GetView {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Constants.background,
+      backgroundColor: Colors.transparent,
       body: Container(
           child: Stack(
         children: [
-          Background(color: color, image: "lib/assets/image/bg_4.png"),
           ListView(
             children: [
               Padding(

@@ -21,12 +21,10 @@ class ExplorePage extends GetView {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Constants.background,
+      backgroundColor: Colors.transparent,
       body: Container(
           child: Stack(
         children: [
-          Background(
-              color: color, image: "lib/assets/image/bg_1.png", white: true),
           ListView(
             children: [
               Padding(

@@ -1,32 +1,26 @@
-import 'dart:ui';
-
 import 'package:application/assets/constants.dart';
 import 'package:application/assets/widgets/custom_text_button.dart';
-import 'package:application/routes/home/view/pages/cards/widgets/category_boxes.dart';
-import 'package:application/routes/home/view/pages/cards/widgets/discover_card.dart';
-import 'package:application/routes/home/view/pages/cards/widgets/discover_small_card.dart';
-import 'package:application/routes/home/view/widgets/background.dart';
+import 'package:application/routes/home/controllers/cards_controller.dart';
 import 'package:application/routes/home/view/widgets/section.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CardsPage extends GetView {
-  late Color color;
+class CardsPage extends GetView<CardsController> {
+  late final Color color;
 
-  CardsPage({Key? key, required this.color}) : super(key: key);
+  CardsPage({Key? key, required this.color}) : super(key: key) {
+    Get.put(CardsController());
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Constants.background,
+      backgroundColor: Colors.transparent,
       body: Container(
           child: Stack(
         children: [
-          Background(color: color, image: "lib/assets/image/bg_2.png"),
           ListView(
             children: [
               Padding(
@@ -87,7 +81,9 @@ class CardsPage extends GetView {
                       color: color,
                       filled: true,
                       detailed: true,
-                      press: () {},
+                      press: () async {
+                        controller.toRegisterCard();
+                      },
                     ),
                   ),
                 ],
@@ -98,14 +94,4 @@ class CardsPage extends GetView {
       )),
     );
   }
-
-  void onSeeAllTapped() {}
-
-  void onSleepMeditationTapped() {
-    //Get.to(() => DetailPage(), transition: Transition.rightToLeft);
-  }
-
-  void onDepressionHealingTapped() {}
-
-  void onSearchIconTapped() {}
 }

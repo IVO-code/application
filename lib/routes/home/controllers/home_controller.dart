@@ -68,11 +68,8 @@ class HomeController extends GetxController with StateMixin {
 
   void setIndex(int i) {
     index.value = i;
-    pageController.animateToPage(
-      i,
-      duration: Duration(milliseconds: 200),
-      curve: Curves.decelerate,
-    );
+    pageController.animateToPage(i,
+        duration: Duration(milliseconds: 400), curve: Curves.elasticOut);
 
     refresh();
   }

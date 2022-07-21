@@ -39,6 +39,11 @@ dependencies:
   flutter_screenutil: ^5.5.3+2
   fluttertoast: ^8.0.9
   flutter_launcher_icons: ^0.9.2
+  preload_page_view: ^0.1.4
+  flutter_staggered_grid_view: ^0.6.2
+  flutter_native_splash: ^2.2.5
+  cloudinary_public: ^0.8.2
+  image_picker: ^0.8.5+3
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -48,7 +53,16 @@ dependencies:
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "lib/assets/image/Logo.png"
+  image_path: "lib/assets/image/1024.png"
+  adaptive_icon_foreground: "lib/assets/image/1024.png"
+  adaptive_icon_background: "#F6F6F7"
+
+flutter_native_splash:
+  image: "lib/assets/image/splash_ic.png"
+  background_image: "lib/assets/image/splash_bg.png"
+  android: true
+  ios: true
+
 
 dev_dependencies:
   flutter_test:
