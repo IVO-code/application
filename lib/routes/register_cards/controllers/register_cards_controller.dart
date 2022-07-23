@@ -4,6 +4,8 @@ import 'dart:ui';
 import 'package:application/assets/constants.dart';
 import 'package:application/assets/grid/item_card.dart';
 import 'package:application/assets/widgets/custom_text_button.dart';
+import 'package:application/data/card/card_model.dart';
+import 'package:application/data/card/datasource/card_remote.dart';
 import 'package:application/data/element/datasource/element_remote.dart';
 import 'package:application/data/element/element_model.dart';
 import 'package:application/data/element/element_repository.dart';
@@ -68,6 +70,7 @@ class RegisterCardsController extends GetxController with StateMixin {
     try {
       var elements = await repository.findAllElements();
       if (elements != null) {
+        elements.shuffle();
         questions = elements.where((element) => !element.type).toList();
         answers = elements.where((element) => element.type).toList();
       }
@@ -294,6 +297,7 @@ class RegisterCardsController extends GetxController with StateMixin {
             duration: Duration(milliseconds: 300), curve: Curves.ease);
       },
       child: Obx(() => ItemCard(
+          margin: 3,
           glass: element == question.value || selected.contains(element)
               ? false
               : true,
@@ -301,15 +305,17 @@ class RegisterCardsController extends GetxController with StateMixin {
             children: [
               Expanded(
                 child: CircleAvatar(
-                  radius: 24,
+                  minRadius: 12,
+                  maxRadius: 34,
                   backgroundColor: Constants.inactive,
                   foregroundImage: NetworkImage(element.figure),
                 ),
               ),
               Expanded(
-                  flex: 3,
-                  child: Center(
-                    child: Flexible(
+                flex: 3,
+                child: Center(
+                  child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 12),
                       child: FittedBox(
                         fit: BoxFit.fitWidth,
                         child: Text(
@@ -318,12 +324,12 @@ class RegisterCardsController extends GetxController with StateMixin {
                           style: GoogleFonts.raleway(
                             color: Constants.purple,
                             fontWeight: FontWeight.w600,
-                            fontSize: 30,
+                            fontSize: 20,
                           ),
                         ),
-                      ),
-                    ),
-                  )),
+                      )),
+                ),
+              ),
             ],
           ))),
     );
@@ -336,7 +342,7 @@ class RegisterCardsController extends GetxController with StateMixin {
     for (var i = 0; i < elements.length; i++) {
       items.add(Expanded(
         child: _makeCard(elements[i]),
-        flex: Random().nextInt(5) + 5,
+        flex: Random().nextInt(3) + 7,
       ));
     }
 
@@ -345,7 +351,7 @@ class RegisterCardsController extends GetxController with StateMixin {
       for (var row = 0; row < 6; row++) {
         cards[col].add(items.isEmpty
             ? Expanded(
-                flex: Random().nextInt(5) + 3,
+                flex: Random().nextInt(3) + 7,
                 child: placeholder(),
               )
             : items.removeLast());
@@ -359,5 +365,16 @@ class RegisterCardsController extends GetxController with StateMixin {
     page.value = value;
   }
 
-  saveCard() {}
+  saveCard() {
+    if (question.value != null && selected.length != 0) {
+      CardRemote().postCard(
+          card: Cards(
+              id: 1,
+              date: "",
+              description: question.value!.id,
+              title: question.value!.id,
+              options: selected.map((element) => element.id).toList()));
+      Get.back();
+    }
+  }
 }

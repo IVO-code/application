@@ -10,8 +10,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class Section extends GetView {
   late Widget child;
   late bool glass;
+  late double opacity;
 
-  Section({required this.child, this.glass = true});
+  Section({required this.child, this.opacity = 0.50, this.glass = true});
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +34,8 @@ class Section extends GetView {
                     ],
                     gradient: LinearGradient(
                       colors: [
-                        Constants.background.withOpacity(0.70),
-                        Constants.background.withOpacity(0.50),
+                        Constants.background.withOpacity(this.opacity + 0.20),
+                        Constants.background.withOpacity(this.opacity),
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomCenter,

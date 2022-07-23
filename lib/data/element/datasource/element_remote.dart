@@ -43,14 +43,14 @@ class ElementRemote implements ElementRepository {
     final http.Response response = await http.post(
       Constants.setElement,
       headers: <String, String>{
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'token ' + (await TokenSecureStorage.getToken())!,
       },
       body: jsonEncode(el),
     );
 
     if (response.statusCode == 201) {
-      return Elements.fromJson(response.body);
+      return Elements.fromJson(utf8.decode(response.bodyBytes));
     } else {
       throw Exception('Failed to Create');
     }

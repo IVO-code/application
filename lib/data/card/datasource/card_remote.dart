@@ -17,7 +17,7 @@ class CardRemote implements CardsRepository {
   Future<List<Cards>> findAllCards() async {
     final response = await http.get(Constants.card);
     final List<dynamic> responseMap =
-        jsonDecode(Utf8Decoder().convert(response.bodyBytes));
+        jsonDecode(utf8.decode(response.bodyBytes));
     return responseMap.map((resp) => Cards.fromMap(resp)).toList();
   }
 
@@ -30,25 +30,16 @@ class CardRemote implements CardsRepository {
 
   @override
   Future<Cards> postCard({required card}) async {
-    Map el = {
-      'preceptor': card.creatorId,
-      'texto': card.text,
-      'figura': card.figure,
-      'libras': card.video,
-      'audioDescricao': card.audio,
-      'tipo': card.type,
-    };
-
     final http.Response response = await http.post(
       Constants.setCard,
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': 'token ' + (await TokenSecureStorage.getToken())!,
       },
-      body: jsonEncode(el),
+      body: card.toJson(),
     );
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       return Cards.fromJson(response.body);
     } else {
       throw Exception('Failed to Create');
@@ -56,7 +47,7 @@ class CardRemote implements CardsRepository {
   }
 
   @override
-  Future updateCard({required card, required int oldId}) {
+  Future<Cards> updateCard({required Cards card, required int oldId}) {
     // TODO: implement updateCard
     throw UnimplementedError();
   }

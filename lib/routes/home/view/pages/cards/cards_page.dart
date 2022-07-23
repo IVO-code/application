@@ -69,6 +69,61 @@ class CardsPage extends GetView<CardsController> {
                           ],
                         ),
                       ),
+                      controller.obx(
+                          (state) => Obx(() => ListView.builder(
+                                itemBuilder: (BuildContext, index) {
+                                  return Container(
+                                    margin: EdgeInsets.symmetric(vertical: 3),
+                                    child: Section(
+                                      opacity: 0.3,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          CircleAvatar(
+                                              foregroundImage: NetworkImage(
+                                                  controller.elements
+                                                      .firstWhere((element) =>
+                                                          element.id ==
+                                                          controller
+                                                              .cards[index]
+                                                              .title)
+                                                      .figure)),
+                                          Text(
+                                            controller.elements
+                                                .firstWhere((element) =>
+                                                    element.id ==
+                                                    controller
+                                                        .cards[index].title)
+                                                .text
+                                                .toString(),
+                                            style: GoogleFonts.raleway(
+                                                color: color,
+                                                fontSize: 16.w,
+                                                fontWeight: FontWeight.w800),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                                itemCount: controller.cards.length,
+                                shrinkWrap: true,
+                                padding: EdgeInsets.all(5),
+                                scrollDirection: Axis.vertical,
+                              )),
+                          onLoading: Center(
+                            child: CircularProgressIndicator(
+                              color: Constants.purple,
+                            ),
+                          ),
+                          onError: (e) => Center(
+                                child: CircularProgressIndicator(
+                                  color: Constants.purple,
+                                ),
+                              ))
                     ],
                   ),
                   Positioned(

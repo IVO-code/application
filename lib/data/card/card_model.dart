@@ -5,56 +5,34 @@ import 'package:application/data/user/user_model.dart';
 
 class Cards {
   int id;
-  User? creator;
-  String text;
-  String figure;
-  String video;
-  String audio;
+  int title;
+  int description;
+  List<int> options;
   String date;
-  int creatorId;
-  bool type;
-  Cards(
-      {required this.id,
-      this.creator,
-      required this.creatorId,
-      required this.text,
-      required this.figure,
-      required this.video,
-      required this.audio,
-      required this.date,
-      required this.type}) {
-    if (creatorId != null) {
-      //_findCreator(creatorId);
-    }
-  }
+
+  Cards({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.options,
+    required this.date,
+  });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'preceptor': creatorId,
-      'texto': text,
-      'figura': figure,
-      'libras': video,
-      'audioDescricao': audio,
-      'type': type,
+      'titulo': title,
+      'descricao': description,
+      'opcoes': options,
     };
   }
 
   factory Cards.fromMap(Map<String, dynamic> map) {
     return Cards(
         id: map['id'] as int,
-        creatorId: map['preceptor'] as int,
-        text: map['texto'] as String,
-        figure: map['figura'] as String,
-        video: map['libras'] as String,
-        audio: map['audioDescricao'] as String,
-        date: map['data'] as String,
-        type: map['tipo'] as bool);
-  }
-
-  _findCreator(int id) async {
-    try {
-      creator = await UserRemote().findUser(id: id);
-    } catch (_) {}
+        title: map['titulo'] as int,
+        description: map['descricao'] as int,
+        options: (map['opcoes'] as List<dynamic>).map((e) => e as int).toList(),
+        date: map['data'] as String);
   }
 
   String toJson() => json.encode(toMap());

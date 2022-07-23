@@ -12,20 +12,26 @@ class ItemCard extends GetView {
   late bool glass;
   late double opacity;
   double circularity = 60;
-  ItemCard({required this.child, this.glass = true, this.opacity = 0.50});
+  double margin = 60;
+  ItemCard(
+      {this.circularity = 60,
+      this.margin = 6,
+      required this.child,
+      this.glass = true,
+      this.opacity = 0.50});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 6.w),
+      padding: EdgeInsets.symmetric(horizontal: margin, vertical: margin),
       child: glass
           ? ClipRRect(
               borderRadius: BorderRadius.circular(circularity),
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
                 child: Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 15.w, vertical: 6.h),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: margin.w, vertical: margin),
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
@@ -51,7 +57,8 @@ class ItemCard extends GetView {
               ),
             )
           : Container(
-              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 6.h),
+              padding:
+                  EdgeInsets.symmetric(horizontal: margin, vertical: margin),
               decoration: BoxDecoration(
                   color: Constants.background,
                   borderRadius: BorderRadius.circular(circularity),

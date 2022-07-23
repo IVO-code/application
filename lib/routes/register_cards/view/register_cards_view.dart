@@ -244,12 +244,25 @@ class RegisterCardsView extends GetView<RegisterCardsController> {
                                                 ),
                                                 Text("Resumo",
                                                     style: GoogleFonts.raleway(
+                                                        fontWeight:
+                                                            FontWeight.w500,
                                                         color: Constants.purple,
                                                         fontSize: 34)),
                                                 SizedBox(
                                                   height: 44,
                                                 ),
+                                                controller.question.value !=
+                                                        null
+                                                    ? CircleAvatar(
+                                                        foregroundImage:
+                                                            NetworkImage(
+                                                                controller
+                                                                    .question
+                                                                    .value!
+                                                                    .figure))
+                                                    : Container(),
                                                 Text(
+                                                    textAlign: TextAlign.center,
                                                     controller.question.value ==
                                                             null
                                                         ? "Nenhuma pergunta selecionada..."
@@ -257,9 +270,12 @@ class RegisterCardsView extends GetView<RegisterCardsController> {
                                                             .value!.text,
                                                     style: GoogleFonts.raleway(
                                                         fontWeight:
-                                                            FontWeight.w900,
+                                                            FontWeight.w700,
                                                         color: Constants.purple,
                                                         fontSize: 24)),
+                                                SizedBox(
+                                                  height: 48,
+                                                ),
                                                 Expanded(
                                                     child: ListView.builder(
                                                   // Let the ListView know how many items it needs to build.
@@ -273,6 +289,10 @@ class RegisterCardsView extends GetView<RegisterCardsController> {
                                                         .selected[index];
 
                                                     return ListTile(
+                                                      leading: CircleAvatar(
+                                                          foregroundImage:
+                                                              NetworkImage(
+                                                                  item.figure)),
                                                       title: Text(item.text,
                                                           style: GoogleFonts
                                                               .raleway(
@@ -403,13 +423,18 @@ class RegisterCardsView extends GetView<RegisterCardsController> {
                                                   child: Center(
                                                       child: Obx(
                                                     () => TextField(
+                                                      enabled: controller
+                                                              .page.value !=
+                                                          2,
                                                       decoration:
                                                           InputDecoration(
                                                               hintText: controller
-                                                                          .page ==
+                                                                          .page
+                                                                          .value ==
                                                                       0
                                                                   ? "Buscar pergunta..."
-                                                                  : controller.page ==
+                                                                  : controller.page
+                                                                              .value ==
                                                                           1
                                                                       ? "Buscar resposta..."
                                                                       : "Adicionar card",
