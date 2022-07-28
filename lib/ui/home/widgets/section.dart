@@ -1,31 +1,28 @@
 import 'dart:ui';
 
 import 'package:application/util.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ItemCard extends GetView {
+class Section extends GetView {
   late Widget child;
   late bool glass;
-  late double opacity;
-  double circularity = 60;
-  double margin = 60;
-  ItemCard(
-      {Key? key,
-      this.circularity = 60,
-      this.margin = 6,
-      required this.child,
-      this.glass = true,
-      this.opacity = 0.50})
-      : super(key: key);
+  late double opacity, vertical;
+  late double circularity;
+  Section(
+      {required this.child,
+      this.opacity = 0.50,
+      this.circularity = 20,
+      this.vertical = 20,
+      this.glass = true});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: margin, vertical: margin),
+      padding: EdgeInsets.symmetric(horizontal: 18.w),
       child: glass
           ? ClipRRect(
               borderRadius: BorderRadius.circular(circularity),
@@ -33,7 +30,7 @@ class ItemCard extends GetView {
                 filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
                 child: Container(
                   padding: EdgeInsets.symmetric(
-                      horizontal: margin.w, vertical: margin),
+                      horizontal: 15.w, vertical: (this.vertical).h),
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
@@ -42,8 +39,8 @@ class ItemCard extends GetView {
                     ],
                     gradient: LinearGradient(
                       colors: [
-                        Constants.background.withOpacity(opacity + 0.25),
-                        Constants.background.withOpacity(opacity),
+                        Constants.background.withOpacity(this.opacity + 0.20),
+                        Constants.background.withOpacity(this.opacity),
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomCenter,
@@ -51,7 +48,7 @@ class ItemCard extends GetView {
                     borderRadius: BorderRadius.circular(circularity),
                     border: Border.all(
                       width: 2,
-                      color: Constants.background.withOpacity(opacity + 0.05),
+                      color: Constants.background.withOpacity(0.20),
                     ),
                   ),
                   child: child,
@@ -59,8 +56,8 @@ class ItemCard extends GetView {
               ),
             )
           : Container(
-              padding:
-                  EdgeInsets.symmetric(horizontal: margin, vertical: margin),
+              padding: EdgeInsets.symmetric(
+                  horizontal: 15.w, vertical: (this.vertical).h),
               decoration: BoxDecoration(
                   color: Constants.background,
                   borderRadius: BorderRadius.circular(circularity),

@@ -1,17 +1,14 @@
-import 'dart:math';
-
-import 'package:application/assets/constants.dart';
-import 'package:application/assets/grid/item_card.dart';
+import 'package:application/Util.dart';
 import 'package:application/assets/grid/widget_grid_controller.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:preload_page_view/preload_page_view.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class WidgetGrid extends GetView<WidgetGridController> {
-  WidgetGrid({required List<Widget> items, required Function placeholder}) {
+  WidgetGrid(
+      {Key? key, required List<Widget> items, required Function placeholder})
+      : super(key: key) {
     Get.put(WidgetGridController(items: items, placeholder: placeholder));
     controller.reload(items, placeholder);
   }
@@ -24,7 +21,7 @@ class WidgetGrid extends GetView<WidgetGridController> {
         child: Expanded(
             child: PreloadPageView.builder(
                 controller: PreloadPageController(
-                    viewportFraction: 0.65, initialPage: 4),
+                    viewportFraction: 0.85, initialPage: 4),
                 itemCount: 9,
                 preloadPagesCount: 9,
                 itemBuilder: (context, mainIndex) {
@@ -42,7 +39,7 @@ class WidgetGrid extends GetView<WidgetGridController> {
                       });
                 })),
       ),
-      onLoading: Center(
+      onLoading: const Center(
         child: CircularProgressIndicator(
           color: Constants.background,
         ),

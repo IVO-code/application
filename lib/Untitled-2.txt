@@ -1,0 +1,318 @@
+
+
+
+
+
+
+
+
+
+
+
+
+        import 'dart:math';
+import 'dart:ui';
+
+import 'package:application/util.dart';
+import 'package:application/assets/grid/item_card.dart';
+import 'package:application/routes/home/view/widgets/background.dart';
+import 'package:application/routes/register_cards/controllers/register_cards_controller.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:preload_page_view/preload_page_view.dart';
+
+class RegisterCardsView extends GetView<RegisterCardsController> {
+  RegisterCardsView() {}
+
+  @override
+  Widget build(Object context) {
+    Get.put(RegisterCardsController(context: context as BuildContext));
+
+    return Scaffold(
+        backgroundColor: Constants.purple,
+        body: SafeArea(
+            child: ScrollConfiguration(
+                behavior: MyBehavior(),
+                child: Expanded(
+                    child: PreloadPageView.builder(
+                        controller: PreloadPageController(
+                            viewportFraction: 0.35, initialPage: 4),
+                        itemCount: 9,
+                        scrollDirection: Axis.vertical,
+                        preloadPagesCount: 9,
+                        itemBuilder: (context, mainIndex) {
+                          var rows = [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                _getTitle("Tudo começa com uma pergunta..."),
+                                Expanded(child:                                 PreloadPageView.builder(
+                                    itemCount: 3,
+                                    preloadPagesCount: 3,
+                                    //controller: controller.controllers[mainIndex],
+                                    scrollDirection: Axis.vertical,
+                                    physics: ClampingScrollPhysics(),
+                                    onPageChanged: (page) {
+                                      //controller.animatePage(page, mainIndex);
+                                    },
+                                    itemBuilder: (context, index) {
+                                      return Container(
+                                        child: Text("asda"),
+                                      );
+                                    })
+,)
+                              ],
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              color: Constants.background,
+                              child: Text("asdsa"),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              color: Constants.background,
+                              child: Text("asdsa"),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              color: Constants.background,
+                              child: Text("asdsa"),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              color: Constants.background,
+                              child: Text("asdsa"),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              color: Constants.background,
+                              child: Text("asdsa"),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              color: Constants.background,
+                              child: Text("asdsa"),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              color: Constants.background,
+                              child: Text("asdsa"),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              color: Constants.background,
+                              child: Text("asdsa"),
+                            )
+                          ];
+                          return rows[mainIndex];
+                        })))));
+  }
+
+  Widget _getTitle(String title) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      child: Container(
+        decoration: BoxDecoration(color: Constants.purple, boxShadow: [
+          BoxShadow(
+              blurRadius: 3,
+              offset: Offset(0, 4),
+              color: Constants.black.withAlpha(70))
+        ]),
+        height: 125.h,
+        alignment: Alignment.topLeft,
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              IconButton(
+                onPressed: () {
+                  Get.back();
+                },
+                icon: Icon(Icons.arrow_back),
+                color: Constants.background,
+              ),
+              Flexible(
+                  child: Text(title,
+                      style: GoogleFonts.raleway(
+                        color: Constants.background,
+                        fontSize: 32,
+                      ))),
+              SizedBox(
+                height: 1,
+              )
+            ]),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+import 'dart:math';
+import 'dart:ui';
+
+import 'package:application/util.dart';
+import 'package:application/assets/grid/item_card.dart';
+import 'package:application/routes/home/view/widgets/background.dart';
+import 'package:application/routes/register_cards/controllers/register_cards_controller.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:preload_page_view/preload_page_view.dart';
+
+class RegisterCardsView extends GetView<RegisterCardsController> {
+  RegisterCardsView() {}
+
+  @override
+  Widget build(Object context) {
+    Get.put(RegisterCardsController(context: context as BuildContext));
+
+    return Scaffold(
+        backgroundColor: Constants.purple,
+        body: SafeArea(
+            child: ScrollConfiguration(
+                behavior: MyBehavior(),
+                child: Expanded(
+                    child: PreloadPageView.builder(
+                        controller: PreloadPageController(
+                            viewportFraction: 0.85, initialPage: 0),
+                        itemCount: 9,
+                        scrollDirection: Axis.vertical,
+                        preloadPagesCount: 9,
+                        itemBuilder: (context, mainIndex) {
+                          var rows = [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: _getTitle(
+                                      "Tudo começa com uma pergunta..."),
+                                ),
+                                Expanded(
+                                  flex: 2,
+                                  child: PreloadPageView.builder(
+                                      itemCount: 4,
+                                      preloadPagesCount: 3,
+                                      controller: controller.controllers[0][0],
+                                      physics: ClampingScrollPhysics(),
+                                      onPageChanged: (page) {
+                                        controller.animatePage(0, 1, page);
+                                      },
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                          child: Text("asda"),
+                                        );
+                                      }),
+                                ),
+                                Expanded(
+                                  flex: 2,
+                                  child: PreloadPageView.builder(
+                                      itemCount: 4,
+                                      preloadPagesCount: 3,
+                                      controller: controller.controllers[0][1],
+                                      physics: ClampingScrollPhysics(),
+                                      onPageChanged: (page) {
+                                        controller.animatePage(0, 0, page);
+                                      },
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                          child: Text("asda"),
+                                        );
+                                      }),
+                                )
+                              ],
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              color: Constants.background,
+                              child: Text("asdsa"),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              color: Constants.background,
+                              child: Text("asdsa"),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              color: Constants.background,
+                              child: Text("asdsa"),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              color: Constants.background,
+                              child: Text("asdsa"),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              color: Constants.background,
+                              child: Text("asdsa"),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              color: Constants.background,
+                              child: Text("asdsa"),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              color: Constants.background,
+                              child: Text("asdsa"),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              color: Constants.background,
+                              child: Text("asdsa"),
+                            )
+                          ];
+                          return rows[mainIndex];
+                        })))));
+  }
+
+  Widget _getTitle(String title) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      child: Container(
+        decoration: BoxDecoration(color: Constants.purple, boxShadow: [
+          BoxShadow(
+              blurRadius: 3,
+              offset: Offset(0, 4),
+              color: Constants.black.withAlpha(70))
+        ]),
+        height: 125.h,
+        alignment: Alignment.topLeft,
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              IconButton(
+                onPressed: () {
+                  Get.back();
+                },
+                icon: Icon(Icons.arrow_back),
+                color: Constants.background,
+              ),
+              Flexible(
+                  child: Text(title,
+                      style: GoogleFonts.raleway(
+                        color: Constants.background,
+                        fontSize: 32,
+                      ))),
+              SizedBox(
+                height: 1,
+              )
+            ]),
+      ),
+    );
+  }
+}

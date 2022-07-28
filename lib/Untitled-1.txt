@@ -1,0 +1,340 @@
+import 'dart:math';
+import 'dart:ui';
+
+import 'package:application/util.dart';
+import 'package:application/assets/grid/item_card.dart';
+import 'package:application/assets/grid/widget_grid.dart';
+import 'package:application/routes/home/view/widgets/background.dart';
+import 'package:application/routes/register_cards/controllers/register_cards_controller.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+class RegisterCardsView extends GetView<RegisterCardsController> {
+  RegisterCardsView() {}
+
+  @override
+  Widget build(Object context) {
+    Get.put(RegisterCardsController(context: context as BuildContext));
+
+    return Scaffold(
+      backgroundColor: Constants.purple,
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              child: Container(
+                decoration: BoxDecoration(color: Constants.purple, boxShadow: [
+                  BoxShadow(
+                      blurRadius: 3,
+                      offset: Offset(0, 4),
+                      color: Constants.black.withAlpha(70))
+                ]),
+                height: 125.h,
+                alignment: Alignment.topLeft,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        icon: Icon(Icons.arrow_back),
+                        color: Constants.background,
+                      ),
+                      Flexible(
+                          child: Text("Tudo começa com uma pergunta...",
+                              style: GoogleFonts.raleway(
+                                color: Constants.background,
+                                fontSize: 32,
+                              ))),
+                      SizedBox(
+                        height: 1,
+                      )
+                    ]),
+              ),
+            ),
+            Expanded(
+                child: Stack(
+                    alignment: Alignment.center,
+                    fit: StackFit.passthrough,
+                    children: [
+                  Opacity(
+                    opacity: 0.5,
+                    child: Background(
+                      color: Colors.purple,
+                    ),
+                  ),
+                  controller.obx((items) => Text(items.toString()),
+                      onLoading: Center(
+                        child: CircularProgressIndicator(
+                          color: Constants.background,
+                        ),
+                      ),
+                      onError: (e) => GestureDetector(
+                          onTap: () => Get.to(() => RegisterCardsView()),
+                          child: Container(
+                            margin: EdgeInsets.only(
+                                left: 18, right: 18, bottom: 120, top: 50),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(90),
+                              child: BackdropFilter(
+                                filter: ImageFilter.blur(
+                                  sigmaX: 12.0,
+                                  sigmaY: 12.0,
+                                ),
+                                child: Container(
+                                  padding: EdgeInsets.all(18),
+                                  decoration: BoxDecoration(
+                                      color: Constants.purple.withOpacity(0.2),
+                                      borderRadius: BorderRadius.circular(90.0),
+                                      border: Border.all(
+                                        width: 1.5,
+                                        color: Constants.background
+                                            .withOpacity(0.2),
+                                      )),
+                                  child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.mode_edit_outlined,
+                                          color: Constants.background,
+                                        ),
+                                        SizedBox(
+                                          width: 6,
+                                        ),
+                                        Flexible(
+                                            child: Text(
+                                                "Crie sua própria pergunta...",
+                                                style: GoogleFonts.raleway(
+                                                    color: Constants.background,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 18))),
+                                      ]),
+                                ),
+                              ),
+                            ),
+                          ))),
+                  Positioned(
+                    bottom: 24,
+                    left: 16,
+                    right: 16,
+                    child: 
+                  ),
+                ]))
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Obx(() => WidgetGrid(
+                          items: controller.widgets.toList(),
+                          placeholder: () => Opacity(
+                              opacity: 0.02 + (Random().nextInt(15) / 100),
+                              child: ItemCard(
+                                child: Container(),
+                              ))))
+
+
+
+
+
+
+
+
+                              
+
+
+
+
+
+
+
+
+
+                              import 'dart:math';
+import 'dart:ui';
+
+import 'package:application/util.dart';
+import 'package:application/assets/grid/item_card.dart';
+import 'package:application/routes/home/view/widgets/background.dart';
+import 'package:application/routes/register_cards/controllers/register_cards_controller.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:preload_page_view/preload_page_view.dart';
+
+class RegisterCardsView extends GetView<RegisterCardsController> {
+  RegisterCardsView() {}
+
+  @override
+  Widget build(Object context) {
+    Get.put(RegisterCardsController(context: context as BuildContext));
+
+    return Scaffold(
+        backgroundColor: Constants.purple,
+        body: SafeArea(
+            child: ScrollConfiguration(
+                behavior: MyBehavior(),
+                child: Expanded(
+                    child: PreloadPageView.builder(
+                        controller: PreloadPageController(
+                            viewportFraction: 0.85, initialPage: 0),
+                        itemCount: 9,
+                        scrollDirection: Axis.vertical,
+                        preloadPagesCount: 9,
+                        itemBuilder: (context, mainIndex) {
+                          var rows = [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: _getTitle(
+                                      "Tudo começa com uma pergunta..."),
+                                ),
+                                Expanded(
+                                  flex: 2,
+                                  child: PreloadPageView.builder(
+                                      itemCount: 4,
+                                      preloadPagesCount: 3,
+                                      controller: controller.controllers[0][0],
+                                      physics: ClampingScrollPhysics(),
+                                      onPageChanged: (page) {
+                                        controller.animatePage(0, 1, page);
+                                      },
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                          child: Text("asda"),
+                                        );
+                                      }),
+                                ),
+                                Expanded(
+                                  flex: 2,
+                                  child: PreloadPageView.builder(
+                                      itemCount: 4,
+                                      preloadPagesCount: 3,
+                                      controller: controller.controllers[0][1],
+                                      physics: ClampingScrollPhysics(),
+                                      onPageChanged: (page) {
+                                        controller.animatePage(0, 0, page);
+                                      },
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                          child: Text("asda"),
+                                        );
+                                      }),
+                                )
+                              ],
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              color: Constants.background,
+                              child: Text("asdsa"),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              color: Constants.background,
+                              child: Text("asdsa"),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              color: Constants.background,
+                              child: Text("asdsa"),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              color: Constants.background,
+                              child: Text("asdsa"),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              color: Constants.background,
+                              child: Text("asdsa"),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              color: Constants.background,
+                              child: Text("asdsa"),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              color: Constants.background,
+                              child: Text("asdsa"),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              color: Constants.background,
+                              child: Text("asdsa"),
+                            )
+                          ];
+                          return rows[mainIndex];
+                        })))));
+  }
+
+  Widget _getTitle(String title) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      child: Container(
+        decoration: BoxDecoration(color: Constants.purple, boxShadow: [
+          BoxShadow(
+              blurRadius: 3,
+              offset: Offset(0, 4),
+              color: Constants.black.withAlpha(70))
+        ]),
+        height: 125.h,
+        alignment: Alignment.topLeft,
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              IconButton(
+                onPressed: () {
+                  Get.back();
+                },
+                icon: Icon(Icons.arrow_back),
+                color: Constants.background,
+              ),
+              Flexible(
+                  child: Text(title,
+                      style: GoogleFonts.raleway(
+                        color: Constants.background,
+                        fontSize: 32,
+                      ))),
+              SizedBox(
+                height: 1,
+              )
+            ]),
+      ),
+    );
+  }
+}

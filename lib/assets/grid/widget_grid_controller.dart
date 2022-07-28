@@ -1,13 +1,5 @@
 import 'dart:math';
 
-import 'package:application/assets/constants.dart';
-import 'package:application/assets/grid/item_card.dart';
-import 'package:application/data/element/element_model.dart';
-import 'package:application/data/user/datasource/user_remote.dart';
-import 'package:application/data/user/user_model.dart';
-import 'package:application/routes/home/view/widgets/background.dart';
-import 'package:application/routes/home/view/widgets/section.dart';
-import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:preload_page_view/preload_page_view.dart';
@@ -19,15 +11,15 @@ class WidgetGridController extends GetxController with StateMixin {
   WidgetGridController(
       {required List<Widget> items, required Function placeholder}) {
     controllers = [
-      PreloadPageController(viewportFraction: 0.6, initialPage: 1),
-      PreloadPageController(viewportFraction: 0.6, initialPage: 1),
-      PreloadPageController(viewportFraction: 0.6, initialPage: 1),
-      PreloadPageController(viewportFraction: 0.6, initialPage: 1),
-      PreloadPageController(viewportFraction: 0.6, initialPage: 1),
-      PreloadPageController(viewportFraction: 0.6, initialPage: 1),
-      PreloadPageController(viewportFraction: 0.6, initialPage: 1),
-      PreloadPageController(viewportFraction: 0.6, initialPage: 1),
-      PreloadPageController(viewportFraction: 0.6, initialPage: 1),
+      PreloadPageController(viewportFraction: 0.7, initialPage: 1),
+      PreloadPageController(viewportFraction: 0.7, initialPage: 1),
+      PreloadPageController(viewportFraction: 0.7, initialPage: 1),
+      PreloadPageController(viewportFraction: 0.7, initialPage: 1),
+      PreloadPageController(viewportFraction: 0.7, initialPage: 1),
+      PreloadPageController(viewportFraction: 0.7, initialPage: 1),
+      PreloadPageController(viewportFraction: 0.7, initialPage: 1),
+      PreloadPageController(viewportFraction: 0.7, initialPage: 1),
+      PreloadPageController(viewportFraction: 0.7, initialPage: 1),
     ];
 
     reload(items, placeholder);
@@ -62,7 +54,7 @@ class WidgetGridController extends GetxController with StateMixin {
     for (int i = 0; i < 9; i++) {
       if (i != index) {
         controllers[i].animateToPage(page,
-            duration: Duration(milliseconds: 300), curve: Curves.ease);
+            duration: const Duration(milliseconds: 300), curve: Curves.ease);
       }
     }
   }
